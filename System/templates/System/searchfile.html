@@ -1,0 +1,92 @@
+{% extends 'System/main.html' %}
+{% block body%}
+<br>
+<div class="row">
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" id="total-orders">
+                <div class="card-header">
+                    <h5 class="card-title">SY Files</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{sya}}+{{syb}}+{{syc}}={{sys}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" id="orders-delivered">
+                <div class="card-header">
+                    <h5 class="card-title">TY Files</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{tya}}+{{tyb}}+{{tyc}}={{tys}}</h3>
+                </div>
+            </div>
+        </div>
+   </div>
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" id="orders-pending">
+                <div class="card-header">
+                    <h5 class="card-title">BTech Files</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{fya}}+{{fyb}}+{{fyc}}={{fys}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  
+<br>
+<div class="row">
+    <div class="col">
+        <div class="card card-body">
+            <form method="get">
+                {% csrf_token %}
+                {{myfilter.form}}
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
+            <div>
+                <a class="btn btn-outline-info" href="{% url 'home' %}">Back</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<br>
+  <div class="row">
+    <div class="col-md">
+        <hr>
+        <div class="card card-body">
+            <table class="table table-sm">
+                <tr>
+
+                    <th>Batch</th>
+                    <th>Div and class</th>
+                    <th>file</th>
+                    <th>download</th>
+                    <th>Delete</th>
+                    <th>upadte</th>
+                </tr>
+                {% for i in upld reversed %}
+                <tr>
+                    <td>{{i.Batch}}</td>
+                    <td>{{i.div}}</td>
+                    <td>{{i.sheet}}</td>
+                    
+                    <td><a class= "btn btn-md btn-outline-info" href="{{i.fileupload.url}}" download="{{i.fileupload.url}}">{{i.sheet}}</a></td>
+                    
+                    <td><a class= "btn btn-md btn-outline-danger" href="{% url 'deletefile' i.id %}">Delete</td>
+                    <td><a class= "btn btn-md btn-outline-warning" href="{% url 'updatefile' i.id %}">Update</td>   
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+  </div>
+{% endblock body%}

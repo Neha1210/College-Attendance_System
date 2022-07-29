@@ -1,0 +1,46 @@
+{% extends 'System/main.html' %}
+{% block body%}
+<br>
+<div style="background-color:  ;color:white;height:620px;" class="card">
+    <br>
+    <div class="row d-flex justify-content-center">
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3 mx-auto" >
+                <div  class="card-body">
+                    <a class="btn btn-outline-info btn-lg" href="{% url 'loginpage_clerk' %}">Clerk</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3">
+                <div class="card-body">
+                    <a class="btn btn-outline-warning btn-lg" href="{% url 'floginpage' %}">Faculty</a>
+                </div>
+            </div>
+        </div>
+   </div>
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white mb-3" >
+                <div class="card-body">
+                    <a class="btn btn-outline-success btn-lg" href="">Admin</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md">
+        <div class="card">
+            <div class="card-body">
+                <h5 style="color:#58D68D;font-size: 30px;margin-left:350px; " class="d-flex justify-content-center;">Welcome to Attendace Management system of ccoew</h5>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body%}

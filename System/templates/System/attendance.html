@@ -1,0 +1,97 @@
+{% extends 'System/main.html' %}
+{% block body %}
+<br>
+<div class="row">
+    <div >
+        <a style="margin-left:20px;" class="btn btn-success btn-lg float-left" href="{% url 'faculty'%}">Back</a>
+        <hr>
+    </div>
+  <div class="col-md">
+  <div class="card card-body">
+        <h5>Edit profile:</h5>
+        <hr>
+        <a class="btn btn-outline-info btn-sm btn-block" href="{% url 'fupdateprofile' fview.id %}"> Update profile
+            </a>
+            <br>
+                <a class="btn btn-outline-danger btn-sm btn-block" href="{% url 'getat' fview.id%}">Attendance
+            </a>
+        </div>
+    </div>
+
+  <div class="col-md">
+      <div class="card card-body">
+          
+        <label style="font-weight: bold;">Name of Faculty:</label>{{fview.fname}}
+        </p>
+        <p> Subject:  {{fview.fsub}}</p>
+        <p>Subject Type:{{fview.subtype}}
+        </p>
+      </div>
+  </div>
+  
+   <div class="col-md">
+       <div class="card card-body">
+         <p> Batch:  {{fview.batch}}</p>
+         <p>Div:{{fview.div}}
+         </p>
+         <p>Total Lectures:{{fview.total}}</p>	
+        </div>
+   </div>
+   
+  	
+  </div> 
+</div>   
+<br>
+<div class="row">
+    <div class="col">
+        <div class="card card-body">
+            <form method="get">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<br>
+  <div class="row">
+    <h5 style="margin-left:20px;">Fill Attendance form</h5>
+    <div class="col-md">
+        <hr>
+        <div class="card card-body">
+            <table class="table table-sm table-light table-striped">
+                <tr>
+                    <th></th>
+                    <th>Sr.No</th>
+                    <th>CNo</th>
+                    <th>Student Name</th>
+                    <th>phone no</th>
+                </tr>
+                {% for i in sdata%}
+                <tr>
+                    <td></td>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.cnum}}</td>
+                    <td>{{i.Sname}}</td>
+                    <td>{{i.Ph_no}}</td>
+                    {% endfor %}
+                    {% for j in at%}
+                    <td><a href="{% url 'updateatten' j.id %}">{{j.stud}}</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+  </div>
+
+
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{formset.management_form}}
+                    {% for form in formset%}
+                    {{form}}
+                    <hr>
+                    {% endfor %}
+                    <input type="submit" name="Submit">
+                </form>
+{% endblock body%}

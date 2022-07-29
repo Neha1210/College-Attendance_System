@@ -1,0 +1,36 @@
+{% extends 'System/main.html' %}
+{% load static %}
+{% block body %}
+<br>
+<div>
+    <a style="margin-left:20px;" class="btn btn-success btn-lg float-left" href="{% url 'faculty'%}">Back</a>
+        <hr>
+</div>
+<form method="POST" enctype="multipart/form-data">
+    {%csrf_token %}
+    {{formset.management_form}}
+    <table class="table table-sm table-striped">
+        <tr>
+            <th></th>
+            <th>SR.No</th>
+            <th>Roll No</th>
+            <th>remark</th>
+        </tr>
+        <tr>
+            {% for formset in formset%}
+            <td></td>
+            <td>{{forloop.counter}}</td>
+            <td>{{formset.stud}}</td>
+            <td>{{formset.Remark}}</td>
+        </tr>
+        {% endfor %}
+    </table><!-- 
+{% for formset in formset %}
+    <h2>{{forloop.counter}}</h2>
+    {{formset.as_p}}
+        <hr>
+ {% endfor %} -->       
+    <button  class="btn btn-primary" type="submit">Submit </button>
+</form>
+
+{% endblock body %}

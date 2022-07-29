@@ -1,0 +1,9 @@
+<div class="card text-center">
+	<p> are you sure u want to delete this post named "{{upld}}"?</p>
+<form action="{% url 'deletefile' upds.id%}" method="POST">
+    {% csrf_token %}
+    <a href="{% url 'home'%}">cancel</a>
+    <input type="submit" name="Submit">
+
+</form>
+</div>

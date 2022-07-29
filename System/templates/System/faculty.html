@@ -1,0 +1,78 @@
+{% extends 'System/main.html' %}
+{% block body %}
+<br>
+  <div class="row">
+    <div class="col-md">
+        <h5 style="margin-left:20px;">Faculty:</h5>
+        <hr>
+        <div class="card card-body">
+            <a class="btn btn-primary btn-sm btn-block" href="{% url 'facultyprofile'%}"> Create profile
+            </a>
+            <table class="table table-sm">
+                <tr>
+                    <th>view</th>
+                    <th>Name</th>
+                    <th>Subject</th>
+                    <th>SubType</th>
+                    <th>Batch</th>
+                    <th>Div</th>
+                    <th>Total lect</th>
+                </tr>
+                     {% for i in fdata %}
+                <tr>
+                    <td><a class= "btn btn-sm btn-info" href="{% url 'fview' i.id%}">view</a></td>
+                    <td>{{i.fname}}</td>
+                    <td>{{i.fsub}}</td>
+                    <td>{{i.subtype}}</td>
+                    <td>{{i.batch}}</td>
+                    <td>{{i.div}}</td>
+                    <td>{{i.total}}</td>
+                </tr>
+                     {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="col-md">
+        <div class="row">
+    <div class="col">
+        <div class="card card-body">
+            <form method="get">
+                {% csrf_token%}
+                {% for myfilter in myf%}
+                {{myfilter.form}}
+                {% endfor%}
+                <button class="btn btn-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+        <div class="card card-body">
+            
+            <table class="table table-sm">
+                <tr>
+
+                    <th>view</th>
+                    <th>Name</th>
+                    <th>Subject</th>
+                    <th>SubType</th>
+                    <th>Batch</th>
+                    <th>Div</th>
+                    <th>Total lect</th>
+                </tr>
+                       {% for order in orders %}
+                <tr>
+                    <td>{{order.product}}</td>
+                    <td>{{order.date_created}}</td>
+                    <td>{{order.status}}</td>
+                    <td><a class= "btn btn-sm btn-info"  href="{}">Update</a> </td>
+                    <td><a class= "btn btn-sm btn-danger"  href="{}">remove</a> </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+  </div>
+
+
+{% endblock body %}
