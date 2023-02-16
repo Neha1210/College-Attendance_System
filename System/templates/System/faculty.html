@@ -14,6 +14,7 @@
                     <th>Name</th>
                     <th>Subject</th>
                     <th>SubType</th>
+                    <th>Depart</th>
                     <th>Batch</th>
                     <th>Div</th>
                     <th>Total lect</th>
@@ -24,51 +25,12 @@
                     <td>{{i.fname}}</td>
                     <td>{{i.fsub}}</td>
                     <td>{{i.subtype}}</td>
+                    <td>{{i.dpart}}</td>
                     <td>{{i.batch}}</td>
                     <td>{{i.div}}</td>
                     <td>{{i.total}}</td>
                 </tr>
                      {% endfor %}
-            </table>
-        </div>
-    </div>
-    <div class="col-md">
-        <div class="row">
-    <div class="col">
-        <div class="card card-body">
-            <form method="get">
-                {% csrf_token%}
-                {% for myfilter in myf%}
-                {{myfilter.form}}
-                {% endfor%}
-                <button class="btn btn-success" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-
-</div>
-        <div class="card card-body">
-            
-            <table class="table table-sm">
-                <tr>
-
-                    <th>view</th>
-                    <th>Name</th>
-                    <th>Subject</th>
-                    <th>SubType</th>
-                    <th>Batch</th>
-                    <th>Div</th>
-                    <th>Total lect</th>
-                </tr>
-                       {% for order in orders %}
-                <tr>
-                    <td>{{order.product}}</td>
-                    <td>{{order.date_created}}</td>
-                    <td>{{order.status}}</td>
-                    <td><a class= "btn btn-sm btn-info"  href="{}">Update</a> </td>
-                    <td><a class= "btn btn-sm btn-danger"  href="{}">remove</a> </td>
-                </tr>
-                {% endfor %}
             </table>
         </div>
     </div>

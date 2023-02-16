@@ -206,12 +206,12 @@ def fview(request,pk):
     fview=faculty.objects.get(id=pk)
     upld=Upload2.objects.all()
     at=attendance.objects.filter(asub=fview)
-
+    print(at)
     fbatch=fview.batch
     print(fbatch)
     fdiv=fview.div
     print(fdiv)
-    sdata=Upload2.objects.filter(sdiv=fdiv) or Upload2.objects.filter(batch=fbatch)
+    sdata=Upload2.objects.filter(sdiv=fdiv,batch=fbatch) or Upload2.objects.filter(batch=fbatch).values_list()
     re=attendance.objects.filter(asub=fview,Remark='A').values_list()
     ro=attendance.objects.filter(asub=fview,Remark='A').count()
     c=[]
@@ -220,11 +220,7 @@ def fview(request,pk):
         c.append((g))
     print(c)
     print(re)
-    print(sdata)
     cnt=sdata.count()
-    print(cnt)
-             
-
     context={'fview':fview,'sdata':sdata ,'cnt':cnt,'re':re,'at':at}
     return render(request,'System/attendance.html',context)
 
@@ -264,14 +260,28 @@ def atten(request,pk):
     fdiv=fview.div
     print(fdiv)
     sdata=Upload2.objects.filter(sdiv=fdiv) or Upload2.objects.filter(batch=fbatch)
-    print(sdata)
-    cnt=sdata.count()
-    print(cnt)
+
+    salldata=sdata.values_list('roll_no',flat=True)
+    print(salldata)
     
+    cnt=sdata.count()
+    # print(cnt)
+    
+    # d=[]
+    # for j in range(cnt):
+    #     f=salldata[j][4]
+    #     d.append(int(f))
+    # print(d)
+
+    # print(sdata)
+
+
     AttendanceFormSet=inlineformset_factory(faculty,attendance,fields=('asub','stud','Remark'),extra=cnt)
     formset=AttendanceFormSet(queryset=attendance.objects.none(),instance=fview)
 
     
+    for form,i in zip(formset.forms,range(cnt)):
+        form.initial['stud']=salldata[i]
 
     if request.method=='POST':
         formset=AttendanceFormSet(request.POST,instance=fview)
@@ -293,3 +303,144 @@ def updateatten(request,pk):
             return redirect('faculty')
     context={'form':form}
     return render(request,'System/updateatten.html',context)
+
+
+def default(request,pk):
+    fview=faculty.objects.get(id=pk)
+    re=attendance.objects.filter(asub=fview,Remark='A').values_list()
+    ro=attendance.objects.filter(asub=fview,Remark='A').count()
+    c=[]
+    # print(re)
+    for i in range(ro):
+        g=re[i][1]
+        c.append((g))
+    # print(c)
+    
+    import pandas as pd
+    from collections import Counter
+
+    count=pd.Series(c).value_counts()
+    # print("element count")
+    # print(count)
+
+    a=dict(Counter(c))
+    print(a)
+    a=dict((k,v) for k,v in a.items() if v>=2)
+    mylist=list(a.keys())
+    cont=len(mylist)
+    # print(cont)
+    # print(mylist)
+    
+    # d=[]
+    # for i in range(cont):
+    #     pss=Upload2.objects.filter(id=mylist[i]).values_list()
+    #     d.append(pss)
+    # print(d)
+
+    # print(re)
+    context={'fview':fview,'a':a}
+    return render(request,'System/defaulter.html',context)
+
+def adminhome(request):
+    hods=HOD.objects.all()
+    context={'hods':hods}
+    return render(request,'System/adminhome.html',context)
+
+def viewadmin(request,pk):
+    hd=HOD.objects.get(id=pk)
+    print(hd.dpart)
+    fault=defaulter.objects.filter(dpart=hd.dpart)
+    print(fault.values_list())
+    count=fault.count()
+    context={'hd':hd,'fault':fault,'count':count}
+    return render(request,'System/viewadmin.html',context)
+
+def createadmin(request):
+    form=HODForm()
+    if request.method=='POST':
+        form=HODForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('adminhome')
+    
+    context={'form':form}
+             
+    return render(request,'System/createadmin.html',context)
+
+def updateadmin(request,pk):
+    hod=HOD.objects.get(id=pk)
+    form=HODForm(instance=hod)
+
+    if request.method=='POST':
+        form=HODForm(request.POST,instance=hod)
+        if form.is_valid():
+            form.save()
+            return redirect('adminhome')
+
+    context={'form':form}
+
+    return render(request,'System/createadmin.html',context)
+
+def deleteadmin(request,pk):
+    hod=HOD.objects.get(id=pk)
+
+    if request.method=='POST':
+        hod.delete()
+        return redirect('adminhome')
+
+    context={'hod':hod}
+    return render(request,'System/deleteadmin.html',context) 
+
+def definput(request):
+    form=DefaulterForm()
+
+    if request.method=='POST':
+        form=DefaulterForm(request.POST,extra=request.POST.get('extra_field_count'))
+        if form.is_valid():
+            form.save()
+            return redirect('faculty')
+            
+    
+    context={'form':form}
+             
+    return render(request,'System/definput.html',context)
+
+def adminreg(request):
+
+    form=CreateUserForm()
+
+    if request.method=='POST':
+        form=CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user=form.cleaned_data.get('username')
+            messages.success(request,'Account has created successfully for'+user)
+            return redirect('adminlogin')
+
+    context={'form':form}       
+    return render(request,'System/adminregister.html',context)   
+
+def adminlogin(request):
+    if request.method=='POST':
+            username=request.POST.get('username')
+            password=request.POST.get('password')
+            user=authenticate(request,username=username,password=password)
+
+            if user is not None:
+                login(request,user)
+                return redirect('adminhome')
+            else:
+                pass
+                
+    else:
+        messages.info(request,"username or passsword is incorrect")
+                
+
+    return render(request,'System/adminlogin.html')
+
+def viewdefaulter(request,pk):
+    df=defaulter.objects.get(id=pk)
+    dfroll=df.defaulter_list.all()
+    print(dfroll)
+    context={'df':df,'dfroll':dfroll}
+    return render(request,'System/viewdefault.html',context)

@@ -21,10 +21,10 @@
   <div class="col-md">
       <div class="card card-body">
           
-        <label style="font-weight: bold;">Name of Faculty:</label>{{fview.fname}}
+        <label style="font-weight: bold;">Name of Faculty:</label> {{fview.fname}}
         </p>
         <p> Subject:  {{fview.fsub}}</p>
-        <p>Subject Type:{{fview.subtype}}
+        <p>Subject Type: {{fview.subtype}}
         </p>
       </div>
   </div>
@@ -32,9 +32,10 @@
    <div class="col-md">
        <div class="card card-body">
          <p> Batch:  {{fview.batch}}</p>
-         <p>Div:{{fview.div}}
+         <p>Department: {{fview.dpart}}</p>
+         <p>Div: {{fview.div}}
          </p>
-         <p>Total Lectures:{{fview.total}}</p>	
+         <p>Total Lectures: {{fview.total}}</p>	
         </div>
    </div>
    
@@ -46,7 +47,7 @@
     <div class="col">
         <div class="card card-body">
             <form method="get">
-                <button class="btn btn-primary" type="submit">Search</button>
+                <a href="{% url 'defaulter' fview.id %}" class="btn btn-primary" >Defaulter list</a>
             </form>
         </div>
     </div>
@@ -66,6 +67,7 @@
                     <th>CNo</th>
                     <th>Student Name</th>
                     <th>phone no</th>
+                    <th>Roll no</th>
                 </tr>
                 {% for i in sdata%}
                 <tr>
@@ -74,6 +76,7 @@
                     <td>{{i.cnum}}</td>
                     <td>{{i.Sname}}</td>
                     <td>{{i.Ph_no}}</td>
+                    <td>{{i.roll_no}}</td>
                     {% endfor %}
                     {% for j in at%}
                     <td><a href="{% url 'updateatten' j.id %}">{{j.stud}}</a></td>
@@ -82,6 +85,7 @@
             </table>
         </div>
     </div>
+
   </div>
 
 

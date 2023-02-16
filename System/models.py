@@ -66,6 +66,13 @@ class faculty(models.Model):
          ('BTECH_C','BTECH_C'),
         )
     div=models.CharField(max_length=7,null=True,choices=divs)
+    dep=(
+           ('Computer','Computer'),
+           ('ENTC','ENTC'),
+           ('INSTRU','INSTRU'),
+           ('MECH','MECH'),
+        )
+    dpart=models.CharField(max_length=20,null=True,choices=dep,default='Computer')
     total=models.IntegerField(null=True,editable=True)
      
     def __str__(self):
@@ -84,3 +91,50 @@ class attendance(models.Model):
     def __str__(self):
         return str(self.stud )+ " "+str(self.asub)+" "+str(self.date)
 
+class HOD(models.Model):
+    name=models.CharField(max_length=200,null=True)
+    dep=(
+           ('Computer','Computer'),
+           ('ENTC','ENTC'),
+           ('INSTRU','INSTRU'),
+           ('MECH','MECH'),
+        )
+    dpart=models.CharField(max_length=20,null=True,choices=dep)
+
+    def __str__(self):
+        return str(self.name)+" "+str(self.dpart)
+
+class defaulter(models.Model):
+    fname=models.ForeignKey(faculty,null=True,on_delete=models.CASCADE)
+    sub=(
+        ('DBMS','DBMS'),
+        ('CN','CN'),
+        ('SDA','SDA'),
+        ('DMDW','DMDW'),
+        ('DSA','DSA'),
+        )
+    fsub=models.CharField(max_length=200,null=True,choices=sub)
+    divs=(
+         ('SY_A','SY_A'),
+         ('SY_B','SY_B'),
+         ('SY_C','SY_C'),
+         ('TY_A','TY_A'),
+         ('TY_B','TY_B'),
+         ('TY_C','TY_C'),
+         ('BTECH_A','BTECH_A'),
+         ('BTECH_B','BTECH_B'),
+         ('BTECH_C','BTECH_C'),
+        )
+    div=models.CharField(max_length=7,null=True,choices=divs)
+    dep=(
+           ('Computer','Computer'),
+           ('ENTC','ENTC'),
+           ('INSTRU','INSTRU'),
+           ('MECH','MECH'),
+        )
+    dpart=models.CharField(max_length=20,null=True,choices=dep,default='Computer')
+    month=models.DateField(null=True)
+    defaulter_list=models.ManyToManyField(Upload2)
+
+    def __str__(self):
+        return str(self.fname)+" "+str(self.div)+" "+str(self.month)

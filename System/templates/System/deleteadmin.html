@@ -1,0 +1,9 @@
+<div class="card text-center">
+	<p> are you sure u want to delete this post named "{{hod}}"?</p>
+<form action="{% url 'deletefile' hod.id%}" method="POST">
+    {% csrf_token %}
+    <a href="{% url 'adminhome'%}">cancel</a>
+    <input type="submit" name="Submit">
+
+</form>
+</div>

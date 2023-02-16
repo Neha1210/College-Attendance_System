@@ -15,3 +15,5 @@ class Upload2Admin(ImportExportModelAdmin):
 admin.site.register(Upload)
 admin.site.register(faculty)
 admin.site.register(attendance)
+admin.site.register(HOD)
+admin.site.register(defaulter)

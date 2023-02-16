@@ -1,0 +1,40 @@
+{% extends 'System/main.html' %}
+
+{% block body %}
+
+<br>
+ <div class="row">
+    <a style="margin-left:20px;" class="btn btn-success btn-lg float-left" href="{% url 'faculty'%}">Back</a>
+        <hr>
+    <div class="col-md">
+        <div class="card card-body">
+            <h4> Defaulter list till now</h4>
+            <hr>
+             <table>
+                    <tr>
+                        <th> </th>
+                        <th>Sr.No</th>
+                        <th>roll_no</th>
+                        <th>absenti</th>
+                    </tr>
+                    <tr>
+                    {% for key, value in a.items %}
+                        <td> </td>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{key}}</td>
+                        <td>{{value}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <a class="btn btn-outline-primary " href="{% url 'definput'%}">Send to HOD</a>
+        </div>
+    </div>
+    <div class="col-md">
+        <div class="card card-body">
+            <h4 class="btn btn-danger">Important!!!</h4>
+            <hr>
+        </div>
+    </div>
+  </div>
+{% endblock body %}
+
